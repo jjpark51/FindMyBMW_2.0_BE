@@ -88,36 +88,5 @@ $ python server.py
 
 
 
-## Works
-
-- Park Jin-suk (FG-AP-12): Product Owner / Full-stack Developer
-
-> 1. Plan web service
-> 2. Full-stack Development
-> 3. Manage/Control Git repository
-> 4. AWS Architecture design & implementation
-
-- Hwang Sieun (FG-AP-12): Data Analysist / Project Developer
-
-> 1.  Data analysis and visualization
-> 2.  Designed and developed recommendation algorithm
-> 3.  Developed question sequence
-> 4.  Utilized AWS architecture and Github Actions
-
-- Park Hanyi (EG-8-KR-2): Designer / Project Developer
-
-> 1. Design the website & its functionalities
-> 2. Organize the content
-> 3. Support a recommendation algorithm
-> 4. Create datasets
-
-- Lee Jiyeon (C3-KR-B-P): Data Analysist / Project Developer
-
-> 1. Development and concretization of web service concept and market positioning direction
-> 2. Integration with strategic/service planning and prediction of expected outcomes
-> 3. Establishment of business model and service scenarios
-> 4. Support a recommendation algorithm and Create datasets
-
-
 ## [License]
 FindMyBMW follow MIT lICESNSE and is freely available for free and may be redistributed under unlimited conditions

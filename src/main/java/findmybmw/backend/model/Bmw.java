@@ -9,7 +9,8 @@ import lombok.Data;
 public class Bmw {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "ID")
+    private Integer id;
 
     @Column(name = "MODEL")
     private String model;
@@ -28,9 +29,9 @@ public class Bmw {
 
     @Column(name = "WEIGHT")
     private Integer weight;
-
-    @Column(name = "HB")
-    private Integer hb;
+//
+//    @Column(name = "HB")
+//    private Integer hb;
 
     @Column(name = "CP")
     private Integer cp;

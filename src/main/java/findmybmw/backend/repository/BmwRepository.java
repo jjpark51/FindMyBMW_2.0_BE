@@ -8,10 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BmwRepository extends JpaRepository<Bmw, Long> {
+public interface BmwRepository extends JpaRepository<Bmw, Integer> {
 
-    @Query("SELECT b.model FROM Bmw b")
-    List<String> findAllModels();
+
+    @Query("SELECT b FROM Bmw b")
+    List<Bmw> findAllModels();
+
+    // Your existing methods...
     @Query("SELECT b FROM Bmw b WHERE b.model = :model")
     Bmw findByModel(String model);
 
@@ -30,8 +33,8 @@ public interface BmwRepository extends JpaRepository<Bmw, Long> {
     @Query("SELECT b.weight FROM Bmw b")
     List<Double> findAllWeights();
 
-    @Query("SELECT b.hb FROM Bmw b")
-    List<Double> findAllHbs();
+//    @Query("SELECT b.hb FROM Bmw b")
+//    List<Double> findAllHbs();
 
     @Query("SELECT b.cp FROM Bmw b")
     List<Double> findAllCps();

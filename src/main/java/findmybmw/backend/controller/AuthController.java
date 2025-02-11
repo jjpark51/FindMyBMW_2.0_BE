@@ -13,9 +13,12 @@ import findmybmw.backend.repository.UsersRepository;
 import findmybmw.backend.security.JwtTokenUtil;
 import findmybmw.backend.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +35,9 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenService refreshTokenService;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
         if (usersRepository.findByUsername(request.getUsername()).isPresent()) {
@@ -47,8 +53,9 @@ public class AuthController {
 
         Users savedUser = usersRepository.save(user);
 
-        String accessToken = jwtTokenUtil.generateToken(user.getUsername());
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(savedUser.getId());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        String accessToken = jwtTokenUtil.generateToken(userDetails);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(savedUser.getUsername());
 
         return ResponseEntity.ok(TokenDTOs.AuthRespones.builder()
                 .accessToken(accessToken)
@@ -63,11 +70,9 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
-        Users user = usersRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        String accessToken = jwtTokenUtil.generateToken(user.getUsername());
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        String accessToken = jwtTokenUtil.generateToken(userDetails);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUsername());
 
         return ResponseEntity.ok(TokenDTOs.AuthRespones.builder()
                 .accessToken(accessToken)
@@ -84,7 +89,8 @@ public class AuthController {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
-                    String token = jwtTokenUtil.generateToken(user.getUsername());
+                    final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+                    String token = jwtTokenUtil.generateToken(userDetails);
                     return ResponseEntity.ok(TokenRefreshResponse.builder()
                             .accessToken(token)
                             .refreshToken(requestRefreshToken)

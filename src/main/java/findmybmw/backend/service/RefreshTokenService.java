@@ -27,9 +27,9 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByToken(token);
     }
 
-    public RefreshToken createRefreshToken(Integer userId) {
+    public RefreshToken createRefreshToken(String username) {
         RefreshToken refreshToken = RefreshToken.builder()
-                .user(usersRepository.findById(userId).get())
+                .user(usersRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found")))
                 .token(UUID.randomUUID().toString())
                 .expiryDate(Instant.now().plusMillis(refreshTokenDurationMs))
                 .build();

@@ -47,4 +47,8 @@ public class CommentsService {
     public Integer getUserIdByUsername(String username) {
         return usersRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found")).getId();
     }
+
+    public String getUsernameById(Integer userId) {
+        return usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")).getUsername();
+    }
 }

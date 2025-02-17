@@ -11,15 +11,25 @@ import java.util.Date;
 public class ReviewsLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Integer postId;
+    @Column(name = "like_id")
+    private Integer likeId;
 
     @Column(name = "user_id", nullable = false)
     private Integer userId;
+
+    @Column(name = "post_id", nullable = false)
+    private Integer postId;
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    @Version
+    @Column(name = "version")
+    private Integer version;
 
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+    }
 }

@@ -70,6 +70,68 @@ public class ReviewController {
         List<Media> mediaList = mediaService.getMediaByPostId(postId);
         return ResponseEntity.ok(mediaList);
     }
+    @PostMapping
+    public ResponseEntity<Reviews> createReview(
+            @RequestHeader("Authorization") String token,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("modelId") Integer modelId,
+            @RequestParam("rating") Double rating,
+            @RequestParam("maintenanceRating") Double maintenanceRating,
+            @RequestParam("performanceRating") Double performanceRating,
+            @RequestParam("comfortRating") Double comfortRating,
+            @RequestParam("safetyRating") Double safetyRating,
+            @RequestParam("valueRating") Double valueRating,
+            @RequestParam(value = "photos", required = false) MultipartFile[] photos) throws IOException {
+
+        try {
+            // Extract user information from JWT token
+            String username = jwtTokenUtil.extractUsername(token.substring(7));
+            Integer userId = userService.getUserIdByUsername(username);
+
+            // Create new review object
+            Reviews review = new Reviews();
+            review.setUserId(userId);
+            review.setModelId(modelId);
+            review.setTitle(title);
+            review.setContent(content);
+            review.setRating(rating);
+            review.setMaintenanceRating(maintenanceRating);
+            review.setPerformanceRating(performanceRating);
+            review.setComfortRating(comfortRating);
+            review.setSafetyRating(safetyRating);
+            review.setValueRating(valueRating);
+            review.setStatus("published");
+
+            // Save the review
+            Reviews savedReview = reviewService.createReview(review);
+
+            // Handle photo uploads if any
+            if (photos != null && photos.length > 0) {
+                for (MultipartFile photo : photos) {
+                    if (!photo.isEmpty()) {
+                        String fileName = photo.getOriginalFilename();
+                        Path filePath = Paths.get(UPLOAD_DIR, fileName);
+                        Files.createDirectories(filePath.getParent());
+                        Files.write(filePath, photo.getBytes());
+
+                        Media media = new Media();
+                        media.setUserId(userId);
+                        media.setPostId(savedReview.getPostId());
+                        media.setFileName(fileName);
+                        media.setFileType(photo.getContentType());
+                        media.setFilePath(filePath.toString());
+                        mediaService.saveMedia(media);
+                    }
+                }
+            }
+
+            return ResponseEntity.ok(savedReview);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     @PutMapping("/update/{modelId}/{postId}")
     public ResponseEntity<Reviews> updateReview(

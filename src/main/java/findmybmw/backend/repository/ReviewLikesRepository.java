@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface ReviewLikesRepository extends JpaRepository<ReviewsLike, Integer> {
     Optional<ReviewsLike> findByUserIdAndPostId(Integer userId, Integer postId);
     long countByPostId(Integer postId);
+    void deleteByPostId(Integer postId);  // Add this method
+
 }

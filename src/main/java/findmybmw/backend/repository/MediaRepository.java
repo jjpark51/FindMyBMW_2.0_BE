@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface MediaRepository extends JpaRepository<Media, Integer> {
     List<Media> findByPostId(Integer postId);
+    void deleteByPostId(Integer postId);  // Add this method
+
 }

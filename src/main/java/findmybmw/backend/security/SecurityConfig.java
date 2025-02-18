@@ -33,7 +33,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Ensure CORS is enabled
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/uploads/**", "/api/likes/**", "/api/likes/toggle/**").permitAll() // Allow access to likes and uploads
+                        .requestMatchers("/api/auth/**", "/uploads/**", "/api/likes/**", "/api/likes/toggle/**","/api/reviews/delete/**").permitAll() // Allow access to likes and uploads
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

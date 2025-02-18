@@ -26,8 +26,23 @@ public class Reviews {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "rating")
+    @Column(name = "overall_rating")
     private Double rating;
+
+    @Column(name = "maintenance_rating")
+    private Double maintenanceRating;
+
+    @Column(name = "performance_rating")
+    private Double performanceRating;
+
+    @Column(name = "comfort_rating")
+    private Double comfortRating;
+
+    @Column(name = "safety_rating")
+    private Double safetyRating;
+
+    @Column(name = "value_rating")
+    private Double valueRating;
 
     @Column(name = "status")
     private String status;
@@ -48,6 +63,9 @@ public class Reviews {
     protected void onCreate() {
         createdAt = new Date();
         updatedAt = new Date();
+        if (publishedAt == null) {
+            publishedAt = new Date();
+        }
     }
 
     @PreUpdate

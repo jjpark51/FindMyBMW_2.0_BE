@@ -6,9 +6,9 @@
 
 FindMyBMW is a toy project initiated by the 2023-2 IT interns of BMW Group Korea (feat. 2023-2 Marketing Intern Lee Jiyeon & 2023-2 Homologation Intern Park Hanyi) and is aimed at recommending BMW models to potential customers baased on their taste & lifestyle.
 
-# Update!!! (24.7.25)
+# Update!!! 
 ----------------------------
-Version 2.0 (24.7.25)
+Version 2.0 
 - Backend framework changed from Flask to Spring Boot
 - Utilizes Microservice Architecture
 - Added an Admin Page

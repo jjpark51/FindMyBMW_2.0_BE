@@ -10,8 +10,6 @@ FindMyBMW is a toy project initiated by the 2023-2 IT interns of BMW Group Korea
 ----------------------------
 Version 2.0 
 - Backend framework changed from Flask to Spring Boot
-- Utilizes Microservice Architecture
-- Added an Admin Page
 - Added MySQL Database
 - Added Login/Signup Page
 -----------------------------
